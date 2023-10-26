@@ -57,3 +57,12 @@ function getMenCountByYear($users)
 
 //Мое решение2:
 
+function getMenCountByYear($users)
+{
+    $mens = array_filter($users, fn($user) => $user['gender'] === 'male');
+    $years = array_map(fn($user) => date('Y', strtotime($user['birthday'])), $mens);
+    return array_reduce($years, function ($acc, $user) {
+        $acc[$user] = ($acc[$user] ?? 0) + 1;
+        return $acc;
+    }, []);
+}
